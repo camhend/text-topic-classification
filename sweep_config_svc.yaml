@@ -1,0 +1,54 @@
+program: run.py
+project: Data571-Final-Project
+entity: henderc7-wwu
+method: random
+metric:
+  name: dev_acc
+  goal: maximize
+run_cap: 100
+
+parameters:
+  model: 
+    value: linearSVC
+  transform:
+    values: ['none', 'tf-idf', 'maxabs']
+
+  class-weight:
+    values: ['inv_sqrt', 'balanced', null]
+
+  feature-percentile:
+    distribution: uniform
+    min: 0.01
+    max: 100
+
+  tfidf-norm:
+    values: ['l1', 'l2']
+  tfidf-use-idf:
+    value: true
+  tfidf-sublinear-tf:
+    values: [true, false]
+
+   # LinearSVC parameters
+  svc-penalty:
+    values: ['l1', 'l2']
+  svc-loss:
+    values: ['hinge', 'squared_hinge']
+  svc-C:
+    distribution: q_log_uniform_values
+    min: 0.001
+    max: 1000
+    q: 0.001
+  
+  max-iter:
+    value: 1000 
+
+
+command: 
+  - ${interpreter}
+  - ${program}
+  - --trainx=../../proj_data/task1_topics/train.sparseX
+  - --trainy=../../proj_data/task1_topics/train.CT
+  - --devx=../../proj_data/task1_topics/dev.sparseX
+  - --devy=../../proj_data/task1_topics/dev.CT
+  - --train
+  - ${args}

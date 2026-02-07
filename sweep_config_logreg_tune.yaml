@@ -1,0 +1,62 @@
+program: run.py
+project: Data571-Final-Project
+entity: henderc7-wwu
+method: random
+metric:
+  name: dev_acc
+  goal: maximize
+run_cap: 50
+
+parameters:
+  model: 
+    value: logreg
+
+  feature-percentile:
+    value: 100
+    # distribution: uniform
+    # min: 0.01
+    # max: 100
+
+  class-weight:
+    value: 'inv_sqrt'
+  root:
+    # value: 2
+    distribution: uniform
+    min: 1
+    max: 5
+
+
+  transform:
+    value: 'tf-idf'
+  tfidf-norm:
+    value: 'l2'
+  tfidf-use-idf:
+    value: true
+  tfidf-sublinear-tf:
+    value: true
+
+  # logistic regression
+  logreg-penalty:
+    value: 'l2'
+  logreg-C:
+    value: 18
+    # value: 0.1
+  logreg-solver:
+    value: 'lbfgs'
+  
+  max-iter:
+    value: 1000
+    
+
+
+    
+
+command: 
+  - ${interpreter}
+  - ${program}
+  - --trainx=../../proj_data/task1_topics/train.sparseX
+  - --trainy=../../proj_data/task1_topics/train.CT
+  - --devx=../../proj_data/task1_topics/dev.sparseX
+  - --devy=../../proj_data/task1_topics/dev.CT
+  - --train
+  - ${args}

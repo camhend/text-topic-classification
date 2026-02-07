@@ -1,0 +1,48 @@
+program: run.py
+project: Data571-Final-Project
+entity: henderc7-wwu
+method: random
+metric:
+  name: dev_acc
+  goal: maximize
+run_cap: 100
+
+parameters:
+  model: 
+    value: cnb
+  transform:
+    value: 'tf-idf'
+
+  class-weight:
+    values: ['inv_sqrt', 'balanced', null]
+
+  feature-percentile:
+    distribution: uniform
+    min: 0.01
+    max: 100
+
+  # tf-idf
+  tfidf-norm:
+    values: ['l1', 'l2']
+  tfidf-use-idf:
+    value: true
+  tfidf-sublinear-tf:
+    values: [true, false]
+
+  # compliment naive bayes
+  cnb-alpha:
+    distribution: log_uniform_values
+    min: 0.0001
+    max: 1
+  cnb-norm:
+    values: [True, False]
+
+command: 
+  - ${interpreter}
+  - ${program}
+  - --trainx=../../proj_data/task1_topics/train.sparseX
+  - --trainy=../../proj_data/task1_topics/train.CT
+  - --devx=../../proj_data/task1_topics/dev.sparseX
+  - --devy=../../proj_data/task1_topics/dev.CT
+  - --train
+  - ${args}

@@ -1,0 +1,48 @@
+program: run.py
+project: Data571-Final-Project
+entity: henderc7-wwu
+method: random
+metric:
+  name: dev_acc
+  goal: maximize
+run_cap: 100
+
+parameters:
+  model: 
+    value: knn
+  transform:
+    values: ['none', 'tf-idf', 'maxabs']
+
+  feature-percentile:
+    distribution: uniform
+    min: 0.01
+    max: 100
+
+  # tf-idf
+  tfidf-norm:
+    values: ['l1', 'l2']
+  tfidf-use-idf:
+    value: true
+  tfidf-sublinear-tf:
+    values: [true, false]
+
+  # knn
+  knn-weights: 
+    values: ["uniform", "distance"]
+  knn-n-neighbors: 
+    distribution: q_log_uniform_values
+    min: 10
+    max: 1000
+    q: 5
+  knn-metric:
+    values: ['euclidean', 'cosine', 'l2']
+
+command: 
+  - ${interpreter}
+  - ${program}
+  - --trainx=../../proj_data/task1_topics/train.sparseX
+  - --trainy=../../proj_data/task1_topics/train.CT
+  - --devx=../../proj_data/task1_topics/dev.sparseX
+  - --devy=../../proj_data/task1_topics/dev.CT
+  - --train
+  - ${args}
